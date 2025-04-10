@@ -38,6 +38,34 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
     params.push(lim, start)
   }
 
-  const [rows] = await pool.query(queryStr, params)
-  return { products: rows }
+  const [products] = await pool.query(queryStr, params)
+  return { products }
+}
+
+export const getProductById = async ({ product_id }) => {
+  let queryStr = `SELECT product_id, name, description, price, image_url, category
+                  FROM products
+                  WHERE 1 = 1 AND product_id = ?`
+  const params = [product_id]
+
+  const [[product]] = await pool.query(queryStr, params)
+
+  if (!product) {
+    return {
+      product: null
+    }
+  }
+
+  const [productSpec] = await pool.query(
+    `SELECT spec_name, spec_value FROM product_spec WHERE 1 = 1 AND product_id = ? ORDER BY spec_id`,
+    params
+  )
+
+  productSpec.forEach((spec) => (spec.spec_value = JSON.parse(spec.spec_value)))
+
+  product.spec = productSpec
+
+  return {
+    product
+  }
 }

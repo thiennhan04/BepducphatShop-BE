@@ -1,4 +1,4 @@
-import { query } from 'express-validator'
+import { param, query } from 'express-validator'
 import { validate } from '../utils/validate.utils'
 
 export const getAllProductsValidator = validate([
@@ -21,3 +21,5 @@ export const getAllProductsValidator = validate([
 
   query('category').optional().isString().withMessage('category must be a string')
 ])
+
+export const getProductValidator = validate([param('product_id').isInt({ min: 1 }).withMessage('invalid product id')])
