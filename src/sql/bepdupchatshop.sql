@@ -43,7 +43,7 @@ CREATE TABLE `customers` (
 
 LOCK TABLES `customers` WRITE;
 /*!40000 ALTER TABLE `customers` DISABLE KEYS */;
-INSERT INTO `customers` VALUES (1,'admmin','admin@gmail.com','$2b$10$HBsfj9zYMyhcexUZbnM5fO0Mw9WiirsQbVmBKwy4OPzl4az98Nsd2',NULL,NULL,'user','active','2025-04-13 07:58:52');
+INSERT INTO `customers` VALUES (1,'admin','admin@gmail.com','$2b$10$mxjBMKhygacWockPUZZcwOMNpvJbhhh3X0Zfi/yVHQtgUtzUCzar2',NULL,NULL,'user','active','2025-04-13 09:05:47');
 /*!40000 ALTER TABLE `customers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -175,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-13 15:04:15
+-- Dump completed on 2025-04-13 16:06:50

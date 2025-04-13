@@ -25,3 +25,8 @@ export const registerValidator = validate([
       }
     })
 ])
+
+export const loginValidator = validate([
+  body('usernameOrEmail').trim().notEmpty().withMessage('Username or email is required'),
+  body('password').trim().notEmpty().withMessage('Password is required')
+])
