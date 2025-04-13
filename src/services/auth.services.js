@@ -1,8 +1,8 @@
-import bcrypt from 'bcrypt'
 import { pool } from '../configs/database/connect'
+import { hashPassword } from '../utils/bcrypt.utils'
 
 export const registerUser = async ({ email, password, name }) => {
-  const hashedPassword = await bcrypt.hash(password, 10)
+  const hashedPassword = await hashPassword(password)
 
   const [result] = await pool.query(
     'INSERT INTO customers (email, password, name, role, status) VALUES (?, ?, ?, ?, ?)',
