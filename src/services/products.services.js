@@ -1,7 +1,7 @@
 import { pool } from '../configs/database/connect'
 
-export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, sortBy, orderBy, category }) => {
-  let queryStr = `SELECT product_id, name, description, price, image_url, category
+export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, sortBy, orderBy, category, sort }) => {
+  let queryStr = `SELECT product_id, name, description, price, image_url, category, sort, originalPrice
                   FROM products
                   WHERE 1 = 1`
   const params = []
@@ -22,8 +22,14 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
     queryStr += ` AND price <= ?`
     params.push(parseFloat(priceTo))
   }
+
+  if (sort) {
+    queryStr += ` AND sort = ?`
+    params.push(parseInt(sort))
+  }
+
   if (sortBy) {
-    const allowedSortBy = ['product_id', 'name', 'price', 'category']
+    const allowedSortBy = ['product_id', 'name', 'price', 'category', 'sort']
     if (allowedSortBy.includes(sortBy)) {
       const order = orderBy && ['asc', 'desc'].includes(orderBy.toLowerCase()) ? orderBy.toUpperCase() : 'ASC'
       queryStr += ` ORDER BY ${sortBy} ${order}`

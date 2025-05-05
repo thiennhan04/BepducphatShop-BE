@@ -149,8 +149,9 @@ CREATE TABLE `products` (
   `image_url` varchar(255) DEFAULT NULL,
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sort` int DEFAULT NULL,
+  `originalPrice` decimal(10,2) DEFAULT '0.00',
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +160,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'https://sunhouse.com.vn/dien-gia-dung/bep-tu/bep-tu-don-sunhouse-shd6803.html','Bếp từ',NULL);
+INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'https://sunhouse.com.vn/dien-gia-dung/bep-tu/bep-tu-don-sunhouse-shd6803.html','Bếp từ',1,0.00),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'https://sunhouse.com.vn/dien-gia-dung/bep-tu/bep-tu-don-sunhouse-shd6803.html','Bếp từ',1,0.00),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'https://sunhouse.com.vn/dien-gia-dung/bep-tu/bep-tu-don-sunhouse-shd6803.html','Bếp từ',1,0.00),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'https://sunhouse.com.vn/dien-gia-dung/bep-tu/bep-tu-don-sunhouse-shd6803.html','Bếp từ',1,0.00);
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -172,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-03 22:16:12
+-- Dump completed on 2025-05-06  6:30:57
