@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes'
-import { getAllProducts, getProductById } from '../services/products.services'
+import { createComment, getAllProducts, getComment, getProductById } from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
   const { products } = await getAllProducts(req.query)
@@ -25,7 +25,7 @@ export const getProductController = async (req, res) => {
   if (!product) {
     return res.status(StatusCodes.NOT_FOUND).json({
       status: 'success',
-      message: 'Sản phẩm không tồn tại'
+      message: 'Product not found'
     })
   }
 
@@ -34,5 +34,23 @@ export const getProductController = async (req, res) => {
     data: {
       product
     }
+  })
+}
+
+export const createCommentController = async (req, res) => {
+  const { comment } = await createComment({ ...req.body, product_id: req.params.product_id })
+
+  res.status(StatusCodes.CREATED).json({
+    status: 'success',
+    data: { comment }
+  })
+}
+
+export const getCommentController = async (req, res) => {
+  const { comments } = await getComment(req.params.product_id)
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    data: { comments }
   })
 }
