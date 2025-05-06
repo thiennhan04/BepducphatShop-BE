@@ -4,9 +4,17 @@ import { validate } from '../utils/validate.utils'
 export const getAllProductsValidator = validate([
   query('search').optional().trim().isString().withMessage('search must be a string'),
 
-  query('priceFrom').optional().trim().isFloat({ min: 0 }).withMessage('priceFrom must be a positive number'),
+  query('priceFrom')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isFloat({ min: 0 })
+    .withMessage('priceFrom must be a positive number'),
 
-  query('priceTo').optional().trim().isFloat({ min: 0 }).withMessage('priceTo must be a positive number'),
+  query('priceTo')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isFloat({ min: 0 })
+    .withMessage('priceTo must be a positive number'),
 
   query('priceTo').custom((value, { req }) => {
     if (req.query.priceFrom && value) {
