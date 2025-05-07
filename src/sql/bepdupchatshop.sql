@@ -16,6 +16,41 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `comments`
+--
+
+DROP TABLE IF EXISTS `comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `comments` (
+  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_id` int(11) DEFAULT NULL,
+  `product_id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `phone` varchar(20) NOT NULL,
+  `content` text CHARACTER SET utf8 NOT NULL,
+  `rating` tinyint(4) DEFAULT NULL,
+  `images` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`comment_id`),
+  KEY `product_id` (`product_id`),
+  KEY `parent_id` (`parent_id`),
+  CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`comment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comments`
+--
+
+LOCK TABLES `comments` WRITE;
+/*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (1,NULL,1,'Nguyen Thien Nhan','0123456789','Mình cần tư vấn bếp từ',1,'[]','2025-04-28 15:23:57'),(2,1,1,'Tét','0123456790','Mình thấy mua ở đây ổn đó',NULL,'[]','2025-04-28 15:46:14'),(3,1,1,'TEST 1','076468208','Cần tư vấn bếp từ',NULL,'[]','2025-05-01 04:57:54'),(34,1,1,'TEST 1','076468208','Cần tư vấn bếp từ',NULL,'[{\"url\":\"http://localhost:5000/api/v1/static/image/r3aagq9dtuswg1aqvkwfcpblj.jpg\",\"type\":\"image\"},{\"url\":\"http://localhost:5000/api/v1/static/image/rhm15fu23bft5qss6zrh7berf.jpg\",\"type\":\"image\"}]','2025-05-05 12:00:33'),(35,1,1,'TEST 1','076468208','Cần tư vấn bếp từ',NULL,'[{\"url\":\"http://localhost:5000/api/v1/static/image/r3aagq9dtuswg1aqvkwfcpblj.jpg\",\"type\":\"image\"},{\"url\":\"http://localhost:5000/api/v1/static/image/rhm15fu23bft5qss6zrh7berf.jpg\",\"type\":\"image\"}]','2025-05-05 12:01:13'),(36,1,1,'TEST 1','076468208','Cần tư vấn bếp từ',NULL,'[{\"url\":\"http://localhost:5000/api/v1/static/image/r3aagq9dtuswg1aqvkwfcpblj.jpg\",\"type\":\"image\"},{\"url\":\"http://localhost:5000/api/v1/static/image/rhm15fu23bft5qss6zrh7berf.jpg\",\"type\":\"image\"}]','2025-05-05 12:01:15'),(37,NULL,1,'Hello','076468208','Cần tư vấn bếp từ',4,'[{\"url\":\"http://localhost:5000/api/v1/static/image/r3aagq9dtuswg1aqvkwfcpblj.jpg\",\"type\":\"image\"},{\"url\":\"http://localhost:5000/api/v1/static/image/rhm15fu23bft5qss6zrh7berf.jpg\",\"type\":\"image\"}]','2025-05-06 16:28:51'),(38,NULL,1,'Hello','076468208','Cần tư vấn',4,'[{\"url\":\"http://localhost:5000/api/v1/static/image/r3aagq9dtuswg1aqvkwfcpblj.jpg\",\"type\":\"image\"},{\"url\":\"http://localhost:5000/api/v1/static/image/rhm15fu23bft5qss6zrh7berf.jpg\",\"type\":\"image\"}]','2025-05-06 16:29:07');
+/*!40000 ALTER TABLE `comments` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `customers`
 --
 
@@ -106,6 +141,33 @@ LOCK TABLES `orders` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `product_images`
+--
+
+DROP TABLE IF EXISTS `product_images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `product_images` (
+  `image_id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `image_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`image_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `product_images`
+--
+
+LOCK TABLES `product_images` WRITE;
+/*!40000 ALTER TABLE `product_images` DISABLE KEYS */;
+INSERT INTO `product_images` VALUES (1,1,'https://st.meta.vn/Data/image/2021/12/19/bep-tu-don-sunhouse-shd6803-1.jpg'),(2,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-2.jpg'),(3,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-3.jpg'),(4,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-4.jpg'),(5,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-5.jpg'),(6,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-6.jpg'),(7,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-7.jpg'),(8,1,'https://st.meta.vn/Data/Image/2021/12/19/bep-tu-don-sunhouse-shd6803-8.jpg');
+/*!40000 ALTER TABLE `product_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `product_spec`
 --
 
@@ -145,8 +207,8 @@ CREATE TABLE `products` (
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `price` decimal(10,2) NOT NULL,
+  `promotion` int(11) NOT NULL DEFAULT '0',
   `quantity` int DEFAULT '0',
-  `image_url` varchar(255) DEFAULT NULL,
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sort` int DEFAULT NULL,
   `originalPrice` decimal(10,2) DEFAULT '0.00',
@@ -160,7 +222,9 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
+
 INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(5,'Bếp từ đơn Sunhouse SHD6805','Bếp từ đơn Sunhouse SHD6803',990000.00,99,'spkm1.png','Bếp từ',1,0.00);
+
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -173,4 +237,6 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+
 -- Dump completed on 2025-05-07 20:35:17
+

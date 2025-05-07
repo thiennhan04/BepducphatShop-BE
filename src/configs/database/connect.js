@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 import mysql from 'mysql2/promise'
 
-const env = process.env.NODE_ENV === 'production' ? 'production' : 'development'
+export const env = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 config({ path: `.env.${env}` })
 
 let pool

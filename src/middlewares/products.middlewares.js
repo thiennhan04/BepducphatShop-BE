@@ -1,4 +1,5 @@
-import { param, query } from 'express-validator'
+import { body, param, query } from 'express-validator'
+import { getCommentById, getProductById } from '../services/products.services'
 import { validate } from '../utils/validate.utils'
 
 export const getAllProductsValidator = validate([
@@ -31,3 +32,96 @@ export const getAllProductsValidator = validate([
 ])
 
 export const getProductValidator = validate([param('product_id').isInt({ min: 1 }).withMessage('invalid product id')])
+
+export const createCommentValidator = validate([
+  param('product_id')
+    .isInt({ min: 1 })
+    .withMessage('invalid product id')
+    .custom(async (value) => {
+      const { product } = await getProductById({ product_id: value })
+      if (!product) {
+        throw new Error('product not found')
+      }
+      return true
+    }),
+  body('parent_id')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('invalid parent id')
+    .custom(async (value) => {
+      const comment = await getCommentById({ comment_id: value })
+      if (!comment) {
+        throw new Error('comment not found')
+      }
+      return true
+    }),
+  body('name')
+    .trim()
+    .isString()
+    .withMessage('name must be a string')
+    .isLength({ min: 1 })
+    .withMessage('name is required'),
+  body('phone')
+    .trim()
+    .isString()
+    .withMessage('phone must be a string')
+    .isLength({ min: 1 })
+    .withMessage('phone is required')
+    .isMobilePhone()
+    .withMessage('phone is invalid'),
+  body('content')
+    .trim()
+    .isString()
+    .withMessage('content must be a string')
+    .isLength({ min: 1, max: 200 })
+    .withMessage('content is required'),
+  body('rating').custom((value, { req }) => {
+    const parentId = req.body.parent_id
+
+    if (!parentId) {
+      if (value === undefined || value === null || value === '') {
+        throw new Error('rating is required for root comment')
+      }
+      const num = Number(value)
+      if (!Number.isInteger(num) || num < 1 || num > 5) {
+        throw new Error('rating must be an integer between 1 and 5')
+      }
+    } else {
+      if (value !== undefined && value !== null && value !== '') {
+        throw new Error('rating is not allowed for a reply comment')
+      }
+    }
+
+    return true
+  }),
+  body('images')
+    .isArray()
+    .withMessage('images must be an array')
+    .custom((value) => {
+      if (!value) {
+        throw new Error('images is required')
+      }
+      if (value.length > 0) {
+        value.forEach((image) => {
+          if (image.type !== 'image') {
+            throw new Error('image type must be an image')
+          }
+          if (!image.url) throw new Error('image url is required')
+        })
+      }
+      return true
+    })
+])
+
+export const getCommentValidator = validate([
+  param('product_id')
+    .isInt({ min: 1 })
+    .withMessage('invalid product id')
+    .custom(async (value) => {
+      const { product } = await getProductById({ product_id: value })
+      if (!product) {
+        throw new Error('product not found')
+      }
+      return true
+    })
+])
