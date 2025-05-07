@@ -1,5 +1,11 @@
 import { StatusCodes } from 'http-status-codes'
-import { createComment, getAllProducts, getComment, getProductById } from '../services/products.services'
+import {
+  createComment,
+  getAllProducts,
+  getComment,
+  getProductById,
+  getTopCategories
+} from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
   const { products } = await getAllProducts(req.query)
@@ -11,12 +17,44 @@ export const getAllProductsController = async (req, res) => {
     })
   }
 
+  if (!products.length) {
+    return res.status(StatusCodes.NOT_FOUND).json({
+      status: 'success',
+      message: 'Chưa có danh mục nào trong cơ sở dữ liệu'
+    })
+  }
+
   res.status(StatusCodes.OK).json({
     status: 'success',
     data: {
       products
     }
   })
+}
+
+export const getTopCategoriesController = async (req, res) => {
+  try {
+    const categories = await getTopCategories()
+
+    if (!categories.length) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        status: 'success',
+        message: 'Không có danh mục nào'
+      })
+    }
+
+    return res.status(StatusCodes.OK).json({
+      status: 'success',
+      data: {
+        categories
+      }
+    })
+  } catch (error) {
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      status: 'error',
+      message: 'Lỗi khi lấy danh sách danh mục'
+    })
+  }
 }
 
 export const getProductController = async (req, res) => {
