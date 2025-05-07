@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
-  `comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `product_id` int(11) NOT NULL,
+  `comment_id` int NOT NULL AUTO_INCREMENT,
+  `parent_id` int DEFAULT NULL,
+  `product_id` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `phone` varchar(20) NOT NULL,
-  `content` text CHARACTER SET utf8 NOT NULL,
-  `rating` tinyint(4) DEFAULT NULL,
+  `content` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `rating` tinyint DEFAULT NULL,
   `images` text NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`comment_id`),
@@ -148,8 +148,8 @@ DROP TABLE IF EXISTS `product_images`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product_images` (
-  `image_id` int(11) NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
+  `image_id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
   `image_url` varchar(255) NOT NULL,
   PRIMARY KEY (`image_id`),
   KEY `product_id` (`product_id`),
@@ -207,13 +207,14 @@ CREATE TABLE `products` (
   `name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   `price` decimal(10,2) NOT NULL,
-  `promotion` int(11) NOT NULL DEFAULT '0',
+  `promotion` int NOT NULL DEFAULT '0',
   `quantity` int DEFAULT '0',
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sort` int DEFAULT NULL,
   `originalPrice` decimal(10,2) DEFAULT '0.00',
+  `image_url` text,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -222,10 +223,33 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-
-INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,111,'spkm1.png','Bếp từ',1,0.00),(5,'Bếp từ đơn Sunhouse SHD6805','Bếp từ đơn Sunhouse SHD6803',990000.00,99,'spkm1.png','Bếp từ',1,0.00);
-
+INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,111,0,'Bếp từ',1,0.00,'spkm1.png'),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',990000.00,111,0,'Bếp từ',1,0.00,'spkm1.png'),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,111,0,'Bếp từ',1,0.00,'spkm1.png'),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,111,0,'Bếp từ',1,0.00,'spkm1.png'),(5,'Bếp từ đơn Sunhouse SHD6805','Bếp từ đơn Sunhouse SHD6803',990000.00,99,0,'Bếp từ',1,0.00,'spkm1.png'),(6,'Bếp từ đơn Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,99,0,'Bếp từ',1,0.00,'spkm1.png'),(7,'Bếp gas  Sunhouse SHD6801','Bếp gas Sunhouse SHD6803',990000.00,111,0,'Bếp gas',1,0.00,'spkm1.png'),(8,'Bếp gas Sunhouse SHD6802','Bếp gas Sunhouse SHD6803',990000.00,111,0,'Bếp gas',1,0.00,'spkm1.png'),(9,'Bếp gas Sunhouse SHD6803','Bếp gas Sunhouse SHD6803',990000.00,111,0,'Bếp gas',1,0.00,'spkm1.png'),(10,'Bếp gas Sunhouse SHD6804','Bếp gas Sunhouse SHD6803',990000.00,111,0,'Bếp gas',1,0.00,'spkm1.png'),(11,'Bếp gas Sunhouse SHD6805','Bếp gas Sunhouse SHD6803',990000.00,99,0,'Bếp gas',1,0.00,'spkm1.png'),(12,'Bếp gas Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,99,0,'Bếp gas',1,0.00,'spkm1.png');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `topcategory`
+--
+
+DROP TABLE IF EXISTS `topcategory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `topcategory` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `sort` int DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `topcategory`
+--
+
+LOCK TABLES `topcategory` WRITE;
+/*!40000 ALTER TABLE `topcategory` DISABLE KEYS */;
+INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1),(2,'Bếp gas',2),(3,'Máy hút mùi',3),(4,'Lò nướng - Lò vi sóng',4),(5,'Máy rửa chén',5),(6,'Chậu rửa - Vòi Rửa',6);
+/*!40000 ALTER TABLE `topcategory` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -237,6 +261,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-
--- Dump completed on 2025-05-07 20:35:17
-
+-- Dump completed on 2025-05-08  6:18:39

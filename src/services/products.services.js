@@ -48,6 +48,16 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
   return { products }
 }
 
+export const getTopCategories = async () => {
+  try {
+    const [rows] = await pool.query(`SELECT category FROM topcategory ORDER BY sort ASC`)
+    return rows
+  } catch (error) {
+    console.error('Lỗi khi lấy danh sách category:', error)
+    throw error
+  }
+}
+
 export const getProductById = async ({ product_id }) => {
   const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category
                 FROM products
