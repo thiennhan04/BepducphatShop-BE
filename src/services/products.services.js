@@ -105,8 +105,11 @@ export const getProductById = async ({ product_id }) => {
   product.image_url = productImage.map((item) => item.image_url)
 
   const [averageRating] = averageRatingResult
-  const distribution = averageRating[0].distribution
+  let distribution = averageRating[0].distribution
 
+  if (!distribution) {
+    distribution = {}
+  }
   for (let i = 1; i <= 5; i++) {
     if (!distribution[i]) {
       distribution[i] = 0
