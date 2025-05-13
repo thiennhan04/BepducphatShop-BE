@@ -45,7 +45,7 @@ export const createCommentValidator = validate([
       return true
     }),
   body('parent_id')
-    .optional()
+    .optional({ values: 'falsy' })
     .isInt({ min: 1 })
     .withMessage('invalid parent id')
     .custom(async (value) => {
