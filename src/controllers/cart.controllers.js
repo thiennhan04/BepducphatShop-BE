@@ -21,7 +21,7 @@ export const addToCartController = async (req, res) => {
 }
 
 export const createCheckoutController = async (req, res) => {
-  const { order } = await createCheckout(req.user.customer_id, req.body)
+  const { order } = await createCheckout(req.user?.customer_id, req.body)
 
   res.status(StatusCodes.OK).json({
     status: 'success',
