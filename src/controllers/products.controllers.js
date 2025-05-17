@@ -8,7 +8,7 @@ import {
 } from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
-  const { products } = await getAllProducts(req.query)
+  const { products, pagination } = await getAllProducts(req.query)
 
   if (!products.length) {
     return res.status(StatusCodes.NOT_FOUND).json({
@@ -27,34 +27,28 @@ export const getAllProductsController = async (req, res) => {
   res.status(StatusCodes.OK).json({
     status: 'success',
     data: {
-      products
+      products,
+      pagination
     }
   })
 }
 
 export const getTopCategoriesController = async (req, res) => {
-  try {
-    const categories = await getTopCategories()
+  const categoriesWithProducts = await getTopCategories()
 
-    if (!categories.length) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        status: 'success',
-        message: 'Không có danh mục nào'
-      })
-    }
-
-    return res.status(StatusCodes.OK).json({
+  if (!categoriesWithProducts.length) {
+    return res.status(StatusCodes.NOT_FOUND).json({
       status: 'success',
-      data: {
-        categories
-      }
-    })
-  } catch (error) {
-    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-      status: 'error',
-      message: 'Lỗi khi lấy danh sách danh mục'
+      message: 'Không tìm thấy danh mục nào kèm sản phẩm'
     })
   }
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    data: {
+      categories: categoriesWithProducts
+    }
+  })
 }
 
 export const getProductController = async (req, res) => {

@@ -1,32 +1,37 @@
 import { pool } from '../configs/database/connect'
 
 export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, sortBy, orderBy, category, sort }) => {
-  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice
-                  FROM products
-                  WHERE 1 = 1`
+  let baseQuery = `FROM products WHERE 1 = 1`
   const params = []
 
   if (search) {
-    queryStr += ` AND name LIKE ?`
+    baseQuery += ` AND name LIKE ?`
     params.push(`%${search}%`)
   }
   if (category) {
-    queryStr += ` AND category = ?`
+    baseQuery += ` AND category = ?`
     params.push(category)
   }
   if (priceFrom) {
-    queryStr += ` AND price >= ?`
+    baseQuery += ` AND price >= ?`
     params.push(parseFloat(priceFrom))
   }
   if (priceTo) {
-    queryStr += ` AND price <= ?`
+    baseQuery += ` AND price <= ?`
     params.push(parseFloat(priceTo))
   }
-
   if (sort) {
-    queryStr += ` AND sort = ?`
+    baseQuery += ` AND sort = ?`
     params.push(parseInt(sort))
   }
+
+  // Đếm tổng sản phẩm phù hợp
+  const countQuery = `SELECT COUNT(*) as total ${baseQuery}`
+  const [countResult] = await pool.query(countQuery, params)
+  const totalItems = countResult[0].total
+
+  // Truy vấn dữ liệu sản phẩm
+  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice ${baseQuery}`
 
   if (sortBy) {
     const allowedSortBy = ['product_id', 'name', 'price', 'category', 'sort']
@@ -35,23 +40,56 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
       queryStr += ` ORDER BY ${sortBy} ${order}`
     }
   }
-  if (limit && page) {
-    const currPage = parseInt(page)
-    const lim = parseInt(limit)
-    const start = (currPage - 1) * lim
 
+  let currPage = 1
+  let lim = 10
+  if (limit && page) {
+    currPage = parseInt(page)
+    lim = parseInt(limit)
+    const start = (currPage - 1) * lim
     queryStr += ` LIMIT ? OFFSET ?`
     params.push(lim, start)
   }
 
   const [products] = await pool.query(queryStr, params)
-  return { products }
+
+  const totalPages = Math.ceil(totalItems / lim)
+
+  return {
+    products,
+    pagination: {
+      totalItems,
+      totalPages,
+      currentPage: currPage
+    }
+  }
 }
 
 export const getTopCategories = async () => {
   try {
-    const [rows] = await pool.query(`SELECT category FROM topcategory ORDER BY sort ASC`)
-    return rows
+    const [categories] = await pool.query(
+      `SELECT category, img, logo1, logo2, logo3  FROM topcategory ORDER BY sort ASC`
+    )
+    const results = []
+    for (const item of categories) {
+      const { products } = await getAllProducts({
+        category: item.category,
+        limit: 6,
+        page: 1,
+        sortBy: 'sort',
+        orderBy: 'asc'
+      })
+
+      results.push({
+        category: item.category,
+        img: item.img,
+        logo1: item.logo1,
+        logo2: item.logo2,
+        logo3: item.logo3,
+        products
+      })
+    }
+    return results
   } catch (error) {
     console.error('Lỗi khi lấy danh sách category:', error)
     throw error
