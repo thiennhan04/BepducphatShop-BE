@@ -172,7 +172,7 @@ CREATE TABLE `product_images` (
 
 LOCK TABLES `product_images` WRITE;
 /*!40000 ALTER TABLE `product_images` DISABLE KEYS */;
-INSERT INTO `product_images` VALUES (1,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-1.jpg'),(2,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-2.jpg'),(3,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-3.jpg'),(4,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-4.jpg'),(6,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-6.jpg'),(7,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-7.jpg'),(8,1,'http://localhost:5173/src/assets/img/sanpham/bep-tu-don-sunhouse-shd6803-8.jpg'),(9,2,'http://localhost:5173/src/assets/img/sanpham/bep-dien-tu-coex-ci-3304-g.jpg'),(10,2,'http://localhost:5173/src/assets/img/sanpham/bep-dien-tu-coex-ci-3304-1.jpg'),(11,2,'http://localhost:5173/src/assets/img/sanpham/bep-dien-tu-coex-ci-3304-2.jpg'),(12,3,'http://localhost:5173/src/assets/img/sanpham/may-xay-nau-da-nang-mini-dingo-dcb600.jpg'),(13,3,'http://localhost:5173/src/assets/img/sanpham/may-xay-nau-da-nang-mini-dingo-dcb600-2.jpg'),(14,4,'http://localhost:5173/src/assets/img/sanpham/may-xay-nau-da-nang-mini-dingo-dcb600-3.jpg');
+INSERT INTO `product_images` VALUES (1,1,'bep-tu-don-sunhouse-shd6803-1.jpg'),(2,1,'bep-tu-don-sunhouse-shd6803-2.jpg'),(3,1,'bep-tu-don-sunhouse-shd6803-3.jpg'),(4,1,'bep-tu-don-sunhouse-shd6803-4.jpg'),(6,1,'bep-tu-don-sunhouse-shd6803-6.jpg'),(7,1,'bep-tu-don-sunhouse-shd6803-7.jpg'),(8,1,'bep-tu-don-sunhouse-shd6803-8.jpg'),(9,2,'bep-dien-tu-coex-ci-3304-g.jpg'),(10,2,'bep-dien-tu-coex-ci-3304-1.jpg'),(11,2,'bep-dien-tu-coex-ci-3304-2.jpg'),(12,3,'may-xay-nau-da-nang-mini-dingo-dcb600.jpg'),(13,3,'may-xay-nau-da-nang-mini-dingo-dcb600-2.jpg'),(14,4,'may-xay-nau-da-nang-mini-dingo-dcb600-3.jpg');
 /*!40000 ALTER TABLE `product_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -274,4 +274,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-18 23:16:24
+-- Dump completed on 2025-05-19  0:04:04
