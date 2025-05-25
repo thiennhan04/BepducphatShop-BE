@@ -121,7 +121,7 @@ export const getTopCategories = async () => {
 }
 
 export const getProductById = async ({ product_id }) => {
-  const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category
+  const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category, originalPrice
                 FROM products
                 WHERE 1 = 1 AND product_id = ?`
   const params = [product_id]
