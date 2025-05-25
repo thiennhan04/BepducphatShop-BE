@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 8.0.19, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.41, for Win64 (x86_64)
 --
 -- Host: localhost    Database: bepducphatshop
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	9.2.0
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!50503 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -37,7 +37,7 @@ CREATE TABLE `comments` (
   KEY `parent_id` (`parent_id`),
   CONSTRAINT `comments_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   CONSTRAINT `comments_ibfk_2` FOREIGN KEY (`parent_id`) REFERENCES `comments` (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -46,6 +46,7 @@ CREATE TABLE `comments` (
 
 LOCK TABLES `comments` WRITE;
 /*!40000 ALTER TABLE `comments` DISABLE KEYS */;
+INSERT INTO `comments` VALUES (39,NULL,1,'Nhân','0977631265','sản phẩm tốt',5,'[]','2025-05-24 17:46:02');
 /*!40000 ALTER TABLE `comments` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -163,7 +164,7 @@ CREATE TABLE `product_images` (
   PRIMARY KEY (`image_id`),
   KEY `product_id` (`product_id`),
   CONSTRAINT `product_images_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -172,7 +173,7 @@ CREATE TABLE `product_images` (
 
 LOCK TABLES `product_images` WRITE;
 /*!40000 ALTER TABLE `product_images` DISABLE KEYS */;
-INSERT INTO `product_images` VALUES (1,1,'bep-tu-don-sunhouse-shd6803-1.jpg'),(2,1,'bep-tu-don-sunhouse-shd6803-2.jpg'),(3,1,'bep-tu-don-sunhouse-shd6803-3.jpg'),(4,1,'bep-tu-don-sunhouse-shd6803-4.jpg'),(6,1,'bep-tu-don-sunhouse-shd6803-6.jpg'),(7,1,'bep-tu-don-sunhouse-shd6803-7.jpg'),(8,1,'bep-tu-don-sunhouse-shd6803-8.jpg'),(9,2,'bep-dien-tu-coex-ci-3304-g.jpg'),(10,2,'bep-dien-tu-coex-ci-3304-1.jpg'),(11,2,'bep-dien-tu-coex-ci-3304-2.jpg'),(12,3,'may-xay-nau-da-nang-mini-dingo-dcb600.jpg'),(13,3,'may-xay-nau-da-nang-mini-dingo-dcb600-2.jpg'),(14,4,'may-xay-nau-da-nang-mini-dingo-dcb600-3.jpg');
+INSERT INTO `product_images` VALUES (1,1,'bep-tu-don-sunhouse-shd6803-1.jpg'),(2,1,'bep-tu-don-sunhouse-shd6803-2.jpg'),(3,1,'bep-tu-don-sunhouse-shd6803-3.jpg'),(4,1,'bep-tu-don-sunhouse-shd6803-4.jpg'),(6,1,'bep-tu-don-sunhouse-shd6803-6.jpg'),(7,1,'bep-tu-don-sunhouse-shd6803-7.jpg'),(8,1,'bep-tu-don-sunhouse-shd6803-8.jpg'),(9,2,'bep-dien-tu-coex-ci-3304-g.jpg'),(10,2,'bep-dien-tu-coex-ci-3304-1.jpg'),(11,2,'bep-dien-tu-coex-ci-3304-2.jpg'),(12,3,'may-xay-nau-da-nang-mini-dingo-dcb600.jpg'),(13,3,'may-xay-nau-da-nang-mini-dingo-dcb600-2.jpg'),(14,4,'may-xay-nau-da-nang-mini-dingo-dcb600-3.jpg'),(15,5,'may-xay-nau-da-nang-mini-dingo-dcb600-3.jpg');
 /*!40000 ALTER TABLE `product_images` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,8 +223,9 @@ CREATE TABLE `products` (
   `sort` int DEFAULT NULL,
   `originalPrice` decimal(10,2) DEFAULT '0.00',
   `image_url` text,
+  `brand` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +234,7 @@ CREATE TABLE `products` (
 
 LOCK TABLES `products` WRITE;
 /*!40000 ALTER TABLE `products` DISABLE KEYS */;
-INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',1000000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(5,'Bếp từ đơn Sunhouse SHD6805','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(6,'Bếp từ đơn Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png'),(7,'Bếp gas  Sunhouse SHD6801','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(8,'Bếp gas Sunhouse SHD6802','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(9,'Bếp gas Sunhouse SHD6803','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(10,'Bếp gas Sunhouse SHD6804','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(11,'Bếp gas Sunhouse SHD6805','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(12,'Bếp gas Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png'),(13,'Máy hút mùi Sunhouse SHD6801','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png'),(14,'Máy hút mùi Sunhouse SHD6802','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png'),(15,'Máy hút mùiSunhouse SHD6803','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png'),(16,'Máy hút mùi Sunhouse SHD6804','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png'),(17,'Máy hút mùi Sunhouse SHD6805','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png'),(18,'Máy hút mùi Sunhouse SHD6806','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png');
+INSERT INTO `products` VALUES (1,'Bếp từ đơn Sunhouse SHD6801','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,1000000.00,'spkm1.png','Kaff'),(2,'Bếp từ đơn Sunhouse SHD6802','Bếp từ đơn Sunhouse SHD6803',1000000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png','Kaff'),(3,'Bếp từ đơn Sunhouse SHD6803','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png','Kaff'),(4,'Bếp từ đơn Sunhouse SHD6804','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png','GRANDX'),(5,'Bếp từ đơn Sunhouse SHD6805','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png','Kaff'),(6,'Bếp từ đơn Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp điện từ',1,0.00,'spkm1.png','Kaff'),(7,'Bếp gas  Sunhouse SHD6801','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','Kaff'),(8,'Bếp gas Sunhouse SHD6802','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','GRANDX'),(9,'Bếp gas Sunhouse SHD6803','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','GRANDX'),(10,'Bếp gas Sunhouse SHD6804','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','GRANDX'),(11,'Bếp gas Sunhouse SHD6805','Bếp gas Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','GRANDX'),(12,'Bếp gas Sunhouse SHD6806','Bếp từ đơn Sunhouse SHD6803',990000.00,10,10,'Bếp gas',1,0.00,'spkm1.png','GRANDX'),(13,'Máy hút mùi Sunhouse SHD6801','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX'),(14,'Máy hút mùi Sunhouse SHD6802','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX'),(15,'Máy hút mùiSunhouse SHD6803','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX'),(16,'Máy hút mùi Sunhouse SHD6804','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Lò nướng - Lò vi sóng',1,0.00,'spkm1.png','GRANDX'),(17,'Máy hút mùi Sunhouse SHD6805','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Lò nướng - Lò vi sóng',1,0.00,'spkm1.png','GRANDX'),(18,'Máy hút mùi Sunhouse SHD6806','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Lò nướng - Lò vi sóng',1,0.00,'spkm1.png','GRANDX'),(19,'Máy hút mùi Sunhouse SHD6807','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy rửa chén',1,0.00,'spkm1.png','GRANDX'),(20,'Máy hút mùi Sunhouse SHD6808','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy rửa chén',1,0.00,'spkm1.png','GRANDX'),(21,'Máy hút mùi Sunhouse SHD6809','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy rửa chén',1,0.00,'spkm1.png','GRANDX'),(22,'Máy hút mùi Sunhouse SHD6810','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Chậu rửa - Vòi Rửa',1,0.00,'spkm1.png','GRANDX'),(23,'Máy hút mùi Sunhouse SHD6811','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Chậu rửa - Vòi Rửa',1,0.00,'spkm1.png','GRANDX'),(24,'Máy hút mùi Sunhouse SHD6812','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Chậu rửa - Vòi Rửa',1,0.00,'spkm1.png','GRANDX'),(25,'Máy hút mùi Sunhouse SHD6813','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX'),(26,'Máy hút mùi Sunhouse SHD6814','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX'),(27,'Máy hút mùi Sunhouse SHD6815','Máy hút mùi Sunhouse SHD6801',990000.00,10,10,'Máy hút mùi',1,0.00,'spkm1.png','GRANDX');
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -247,6 +249,10 @@ CREATE TABLE `topcategory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sort` int DEFAULT '1',
+  `img` varchar(45) DEFAULT NULL,
+  `logo1` varchar(45) DEFAULT NULL,
+  `logo2` varchar(45) DEFAULT NULL,
+  `logo3` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -257,13 +263,9 @@ CREATE TABLE `topcategory` (
 
 LOCK TABLES `topcategory` WRITE;
 /*!40000 ALTER TABLE `topcategory` DISABLE KEYS */;
-INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1),(2,'Bếp gas',2),(3,'Máy hút mùi',3),(4,'Lò nướng - Lò vi sóng',4),(5,'Máy rửa chén',5),(6,'Chậu rửa - Vòi Rửa',6);
+INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(2,'Bếp gas',2,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(3,'Máy hút mùi',3,'spkm1.png','eurosun-logo.png','logokaff1.png','bosch.jpg'),(4,'Lò nướng - Lò vi sóng',4,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(5,'Máy rửa chén',5,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(6,'Chậu rửa - Vòi Rửa',6,'spkm1.png','logokaff1.png','eurogold.png','Carysil.png');
 /*!40000 ALTER TABLE `topcategory` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'bepducphatshop'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -274,4 +276,5 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-19  0:04:04
+-- Dump completed on 2025-05-25 15:25:37
+

@@ -10,20 +10,6 @@ import {
 export const getAllProductsController = async (req, res) => {
   const { products, pagination } = await getAllProducts(req.query)
 
-  if (!products.length) {
-    return res.status(StatusCodes.NOT_FOUND).json({
-      status: 'success',
-      message: 'Chưa có sản phẩm nào trong cơ sở dữ liệu'
-    })
-  }
-
-  if (!products.length) {
-    return res.status(StatusCodes.NOT_FOUND).json({
-      status: 'success',
-      message: 'Chưa có danh mục nào trong cơ sở dữ liệu'
-    })
-  }
-
   res.status(StatusCodes.OK).json({
     status: 'success',
     data: {

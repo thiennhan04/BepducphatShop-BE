@@ -1,6 +1,17 @@
 import { pool } from '../configs/database/connect'
 
-export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, sortBy, orderBy, category, sort }) => {
+export const getAllProducts = async ({
+  search,
+  priceFrom,
+  priceTo,
+  limit,
+  page,
+  sortBy,
+  orderBy,
+  category,
+  sort,
+  brand
+}) => {
   let baseQuery = `FROM products WHERE 1 = 1`
   const params = []
 
@@ -8,9 +19,22 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
     baseQuery += ` AND name LIKE ?`
     params.push(`%${search}%`)
   }
+  if (brand && !Array.isArray(brand)) {
+    brand = [brand]
+  }
   if (category) {
     baseQuery += ` AND category = ?`
     params.push(category)
+  }
+  if (brand) {
+    if (Array.isArray(brand)) {
+      const placeholders = brand.map(() => '?').join(', ')
+      baseQuery += ` AND brand IN (${placeholders})`
+      params.push(...brand)
+    } else {
+      baseQuery += ` AND brand = ?`
+      params.push(brand)
+    }
   }
   if (priceFrom) {
     baseQuery += ` AND price >= ?`
@@ -31,7 +55,7 @@ export const getAllProducts = async ({ search, priceFrom, priceTo, limit, page, 
   const totalItems = countResult[0].total
 
   // Truy vấn dữ liệu sản phẩm
-  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice ${baseQuery}`
+  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice, brand ${baseQuery}`
 
   if (sortBy) {
     const allowedSortBy = ['product_id', 'name', 'price', 'category', 'sort']
@@ -97,7 +121,7 @@ export const getTopCategories = async () => {
 }
 
 export const getProductById = async ({ product_id }) => {
-  const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category
+  const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category, originalPrice
                 FROM products
                 WHERE 1 = 1 AND product_id = ?`
   const params = [product_id]
