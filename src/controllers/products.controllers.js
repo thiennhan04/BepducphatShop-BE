@@ -1,7 +1,9 @@
 import { StatusCodes } from 'http-status-codes'
 import {
   createComment,
+  createProduct,
   getAllProducts,
+  getCategories,
   getComment,
   getProductById,
   getTopCategories
@@ -70,5 +72,23 @@ export const getCommentController = async (req, res) => {
   res.status(StatusCodes.OK).json({
     status: 'success',
     data: { comments }
+  })
+}
+
+export const createProductController = async (req, res) => {
+  const { product } = await createProduct(req.body)
+
+  res.status(StatusCodes.CREATED).json({
+    status: 'success',
+    data: { product }
+  })
+}
+
+export const getCategoriesController = async (req, res) => {
+  const categories = await getCategories()
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    data: { categories }
   })
 }

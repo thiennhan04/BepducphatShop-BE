@@ -62,3 +62,10 @@ export const accessTokenValidator = (required = true) =>
         return true
       })
   ])
+
+export const isAdminValidator = (req, res, next) => {
+  if (req.user.role !== 'admin') {
+    throw new ErrorWithStatus('You are not authorized to access this resource', StatusCodes.UNAUTHORIZED)
+  }
+  next()
+}

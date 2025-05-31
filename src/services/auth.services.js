@@ -15,7 +15,7 @@ export const registerUser = async ({ email, password, name }) => {
 
 export const loginUser = async ({ usernameOrEmail }) => {
   const [rows] = await pool.query(
-    'SELECT customer_id, email, password, name, role FROM customers WHERE email = ? OR name = ?',
+    'SELECT customer_id, email, password, name, role FROM customers WHERE (email = ? OR name = ?) AND role = "admin"',
     [usernameOrEmail, usernameOrEmail]
   )
 

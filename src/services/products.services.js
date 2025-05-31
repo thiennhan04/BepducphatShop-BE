@@ -55,7 +55,7 @@ export const getAllProducts = async ({
   const totalItems = countResult[0].total
 
   // Truy vấn dữ liệu sản phẩm
-  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice, brand ${baseQuery}`
+  let queryStr = `SELECT product_id, name, description, price, promotion, image_url, category, sort, originalPrice, brand, quantity ${baseQuery}`
 
   if (sortBy) {
     const allowedSortBy = ['product_id', 'name', 'price', 'category', 'sort']
@@ -252,4 +252,16 @@ export const getComment = async (product_id) => {
   return {
     comments: result
   }
+}
+
+export const createProduct = async (product) => {
+  return {
+    product
+  }
+}
+
+export const getCategories = async () => {
+  const [result] = await pool.query(`SELECT DISTINCT category FROM products`)
+
+  return result.map((item) => item.category)
 }
