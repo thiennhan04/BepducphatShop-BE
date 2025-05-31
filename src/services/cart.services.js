@@ -3,30 +3,33 @@ import { pool } from '../configs/database/connect'
 export const getCart = async (customer_id) => {
   const [[cart]] = await pool.query(
     `SELECT
-     o.order_id,
-     o.customer_id,
-     o.order_date,
-     SUM((p.price * (1 - p.promotion / 100)) * oi.quantity) AS total_amount,
-     o.status,
-     JSON_ARRAYAGG(
-      JSON_OBJECT(
-        'product_id', oi.product_id,
-        'order_quantity', oi.quantity,
-        'name', p.name,
-        'description', p.description,
-        'price', p.price,
-        'promotion', p.promotion,
-        'image_url', p.image_url,
-        'quantity', p.quantity,
-        'category', p.category,
-        'image_url', p.image_url
-      )
-     ) AS items
+       o.order_id,
+       o.customer_id,
+       o.order_date,
+       SUM((p.price * (1 - p.promotion / 100)) * oi.quantity) AS total_amount,
+       o.status,
+       COALESCE(
+         JSON_ARRAYAGG(
+           CASE
+             WHEN oi.product_id IS NOT NULL THEN
+               JSON_OBJECT(
+                 'product_id', oi.product_id,
+                 'order_quantity', oi.quantity,
+                 'name', p.name,
+                 'description', p.description,
+                 'price', p.price,
+                 'promotion', p.promotion,
+                 'image_url', p.image_url,
+                 'quantity', p.quantity,
+                 'category', p.category
+               )
+             ELSE NULL
+           END
+         ), JSON_ARRAY()
+       ) AS items
      FROM orders o
-     LEFT JOIN order_items oi
-     ON oi.order_id = o.order_id
-     LEFT JOIN products p
-     ON oi.product_id = p.product_id
+     LEFT JOIN order_items oi ON oi.order_id = o.order_id
+     LEFT JOIN products p ON oi.product_id = p.product_id
      WHERE o.customer_id = ?
      GROUP BY o.order_id
      LIMIT 1`,
@@ -86,4 +89,21 @@ export const createCheckout = async (
   return {
     order
   }
+}
+
+export const removeFromCart = async (customer_id, product_id) => {
+  const [[cart]] = await pool.query(`SELECT order_id FROM orders WHERE customer_id = ? AND status = 'cart' LIMIT 1`, [
+    customer_id,
+    product_id
+  ])
+
+  if (!cart?.order_id) return { cart: null }
+
+  const order_id = cart.order_id
+  const [[order]] = await pool.query(`DELETE FROM order_items WHERE order_id = ? AND product_id = ?`, [
+    order_id,
+    product_id
+  ])
+
+  return order
 }
