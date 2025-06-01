@@ -125,3 +125,35 @@ export const getCommentValidator = validate([
       return true
     })
 ])
+
+export const createUpdateProductValidator = validate([
+  body('name')
+    .trim()
+    .isString()
+    .withMessage('name must be a string')
+    .isLength({ min: 1 })
+    .withMessage('name is required'),
+  body('description')
+    .trim()
+    .isString()
+    .withMessage('description must be a string')
+    .isLength({ min: 1 })
+    .withMessage('description is required'),
+  body('price').trim().isFloat({ min: 0 }).withMessage('price must be a positive number'),
+  body('promotion').trim().isFloat({ min: 0 }).withMessage('promotion must be a positive number'),
+  body('quantity').trim().isInt({ min: 0 }).withMessage('quantity must be a positive number'),
+  body('category').trim().isString().withMessage('category must be a string'),
+  body('originalPrice').trim().isFloat({ min: 0 }).withMessage('originalPrice must be a positive number'),
+  body('brand').trim().isString().withMessage('brand must be a string'),
+  body('image_url').trim().isString().withMessage('image_url must be a string'),
+  body('detail_images')
+    .trim()
+    .isString()
+    .withMessage('detail_images must be a string')
+    .custom((value) => {
+      if (!value) {
+        throw new Error('detail_images is required')
+      }
+      return true
+    })
+])

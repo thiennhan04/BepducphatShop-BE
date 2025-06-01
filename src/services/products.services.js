@@ -255,8 +255,95 @@ export const getComment = async (product_id) => {
 }
 
 export const createProduct = async (product) => {
-  return {
-    product
+  const [result] = await pool.query(
+    `INSERT INTO products (name, description, price, promotion, quantity, category, originalPrice, brand, image_url)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      product.name,
+      product.description,
+      product.price,
+      product.promotion,
+      product.quantity,
+      product.category,
+      product.originalPrice,
+      product.brand,
+      product.image_url
+    ]
+  )
+
+  const detailImages = product.detail_images
+    ?.split(',')
+    .map((url) => url.trim())
+    .filter(Boolean)
+
+  if (!(detailImages.length && result.insertId)) return
+
+  const values = detailImages.map(() => '(?, ?)').join(', ')
+  const params = detailImages.flatMap((imageUrl) => [result.insertId, imageUrl])
+
+  await pool.query(`INSERT INTO product_images (product_id, image_url) VALUES ${values}`, params)
+
+  // Handle specifications
+  if (product.specifications) {
+    try {
+      const specs = JSON.parse(product.specifications)
+      if (Array.isArray(specs) && specs.length > 0) {
+        const specValues = specs.map(() => '(?, ?, ?)').join(', ')
+        const specParams = specs.flatMap((spec) => [result.insertId, spec.spec_name, JSON.stringify(spec.spec_value)])
+        await pool.query(
+          `INSERT INTO product_spec (product_id, spec_name, spec_value) VALUES ${specValues}`,
+          specParams
+        )
+      }
+    } catch (error) {
+      console.error('Error parsing specifications:', error)
+    }
+  }
+}
+
+export const updateProduct = async (productId, product) => {
+  const [result] = await pool.query(
+    `UPDATE products SET name = ?, description = ?, price = ?, promotion = ?, quantity = ?, category = ?, originalPrice = ?, brand = ?, image_url = ? WHERE product_id = ?`,
+    [
+      product.name,
+      product.description,
+      product.price,
+      product.promotion,
+      product.quantity,
+      product.category,
+      product.originalPrice,
+      product.brand,
+      product.image_url,
+      productId
+    ]
+  )
+
+  if (product.detail_images) {
+    await pool.query(`DELETE FROM product_images WHERE product_id = ?`, [productId])
+
+    const detailImages = product.detail_images
+      ?.split(',')
+      .map((url) => url.trim())
+      .filter(Boolean)
+
+    const values = detailImages.map(() => '(?, ?)').join(', ')
+    const params = detailImages.flatMap((imageUrl) => [productId, imageUrl])
+
+    await pool.query(`INSERT INTO product_images (product_id, image_url) VALUES ${values}`, params)
+  }
+
+  // Handle specifications
+  if (product.specifications) {
+    console.log(product.specifications)
+
+    await pool.query(`DELETE FROM product_spec WHERE product_id = ?`, [productId])
+
+    const specs = JSON.parse(product.specifications)
+    if (Array.isArray(specs) && specs.length > 0) {
+      const specValues = specs.map(() => '(?, ?, ?)').join(', ')
+      const specParams = specs.flatMap((spec) => [productId, spec.spec_name, JSON.stringify(spec.spec_value)])
+      await pool.query(`INSERT INTO product_spec (product_id, spec_name, spec_value) VALUES ${specValues}`, specParams)
+    }
   }
 }
 

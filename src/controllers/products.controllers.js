@@ -6,7 +6,8 @@ import {
   getCategories,
   getComment,
   getProductById,
-  getTopCategories
+  getTopCategories,
+  updateProduct
 } from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
@@ -76,11 +77,18 @@ export const getCommentController = async (req, res) => {
 }
 
 export const createProductController = async (req, res) => {
-  const { product } = await createProduct(req.body)
+  await createProduct(req.body)
 
   res.status(StatusCodes.CREATED).json({
-    status: 'success',
-    data: { product }
+    status: 'success'
+  })
+}
+
+export const updateProductController = async (req, res) => {
+  await updateProduct(req.params.productId, req.body)
+
+  res.status(StatusCodes.OK).json({
+    status: 'success'
   })
 }
 
