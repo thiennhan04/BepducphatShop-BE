@@ -1,3 +1,4 @@
+import { json } from 'express'
 import { pool } from '../configs/database/connect'
 
 export const getAllProducts = async ({
@@ -88,6 +89,21 @@ export const getAllProducts = async ({
     }
   }
 }
+export const getCommentByIdsss = async ({ comment_id }) => {
+  const [result] = await pool.query(
+    `SELECT comment_id, parent_id, product_id, name, phone, content, rating, images, created_at 
+     FROM comments
+     WHERE comment_id = ?
+     ORDER BY created_at DESC`,
+    [comment_id]
+  )
+
+  return result[0]
+}
+export const getListCategories = async () => {
+  const [categories] = await pool.query(`SELECT DISTINCT category FROM products`)
+  return categories
+}
 
 export const getTopCategories = async () => {
   try {
@@ -121,7 +137,7 @@ export const getTopCategories = async () => {
 }
 
 export const getProductById = async ({ product_id }) => {
-  const productQuery = `SELECT product_id, name, description, price, promotion, quantity, category, originalPrice
+  const productQuery = `SELECT product_id, name, description,sort, brand, price, promotion, quantity, category, originalPrice, image_url
                 FROM products
                 WHERE 1 = 1 AND product_id = ?`
   const params = [product_id]
@@ -164,7 +180,7 @@ export const getProductById = async ({ product_id }) => {
   product.spec = productSpec
 
   const [productImage] = imageResult
-  product.image_url = productImage.map((item) => item.image_url)
+  product.image_url = [product.image_url, ...productImage.map((item) => item.image_url)]
 
   const [averageRating] = averageRatingResult
   let distribution = averageRating[0].distribution
@@ -232,6 +248,17 @@ export const createComment = async ({ parent_id, product_id, name, phone, conten
   }
 }
 
+export const createTopCategories = async ({ category, sort, img, logo1, logo2, logo3 }) => {
+  await pool.query(`INSERT INTO topcategory(category, sort, img, logo1, logo2, logo3) values (?,?,?,?,?,?)`, [
+    category,
+    sort,
+    img,
+    logo1,
+    logo2,
+    logo3
+  ])
+}
+
 export const getComment = async (product_id) => {
   const [result] = await pool.query(
     `SELECT comment_id, parent_id, product_id, name, phone, content, rating, images, created_at 
@@ -254,9 +281,115 @@ export const getComment = async (product_id) => {
   }
 }
 
-export const createProduct = async (product) => {
-  return {
-    product
+export const createProduct = async ({
+  name,
+  description,
+  price,
+  images,
+  originalPrice,
+  quantity,
+  category,
+  sort,
+  brand,
+  specs
+}) => {
+  const connection = await pool.getConnection()
+  try {
+    await connection.beginTransaction()
+
+    // 1. Insert product
+    const [productResult] = await connection.query(
+      `INSERT INTO products (name, description, price, originalPrice, quantity, category, sort, brand, image_url)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [name, description, price, originalPrice, quantity, category, sort, brand, images[0]]
+    )
+
+    const productId = productResult.insertId
+
+    // 2. Insert additional images
+    for (const img of images.slice(1)) {
+      await connection.query(`INSERT INTO product_images (product_id, image_url) VALUES (?, ?)`, [productId, img])
+    }
+
+    // 3. Insert specifications
+    for (const group of specs) {
+      const groupTitle = group.title
+      for (const item of group.data) {
+        await connection.query(
+          `INSERT INTO product_spec (product_id, spec_name, spec_value)
+           VALUES (?, ?, ?)`,
+          [productId, groupTitle, JSON.stringify(item)]
+        )
+      }
+    }
+
+    await connection.commit()
+    return { productId }
+  } catch (err) {
+    await connection.rollback()
+    console.error('Transaction failed:', err)
+    throw new Error('Failed to create product')
+  } finally {
+    connection.release()
+  }
+}
+
+export const updateProduct = async ({
+  id,
+  name,
+  description,
+  price,
+  images,
+  originalPrice,
+  quantity,
+  category,
+  sort,
+  brand,
+  specs
+}) => {
+  const connection = await pool.getConnection()
+  try {
+    await connection.beginTransaction()
+
+    // 1. Update product
+    await connection.query(
+      `UPDATE products
+       SET name = ?, description = ?, price = ?, originalPrice = ?, quantity = ?, category = ?, sort = ?, brand = ?, image_url = ?
+       WHERE product_id = ?`,
+      [name, description, price, originalPrice, quantity, category, sort, brand, images[0], id]
+    )
+
+    // 2. Delete old images
+    await connection.query(`DELETE FROM product_images WHERE product_id = ?`, [id])
+
+    // 3. Insert updated additional images
+    for (const img of images.slice(1)) {
+      await connection.query(`INSERT INTO product_images (product_id, image_url) VALUES (?, ?)`, [id, img])
+    }
+
+    // 4. Delete old specs
+    await connection.query(`DELETE FROM product_spec WHERE product_id = ?`, [id])
+
+    // 5. Insert updated specs
+    for (const group of specs) {
+      const groupTitle = group.title
+      for (const item of group.data) {
+        await connection.query(
+          `INSERT INTO product_spec (product_id, spec_name, spec_value)
+           VALUES (?, ?, ?)`,
+          [id, groupTitle, JSON.stringify(item)]
+        )
+      }
+    }
+
+    await connection.commit()
+    return { success: true, productId: id }
+  } catch (err) {
+    await connection.rollback()
+    console.error('Transaction failed during update:', err)
+    throw new Error('Failed to update product')
+  } finally {
+    connection.release()
   }
 }
 
@@ -264,4 +397,70 @@ export const getCategories = async () => {
   const [result] = await pool.query(`SELECT DISTINCT category FROM products`)
 
   return result.map((item) => item.category)
+}
+
+export const getlistCategoriesDetail = async ({ limit, page }) => {
+  let queryStr = 'SELECT * FROM topcategory'
+  const params = []
+  let currPage = 1
+  let lim = 10
+  if (limit && page) {
+    currPage = parseInt(page)
+    lim = parseInt(limit)
+    const start = (currPage - 1) * lim
+    queryStr += ` LIMIT ? OFFSET ?`
+    params.push(lim, start)
+  }
+  const [result] = await pool.query(queryStr, params)
+  const [[{ totalItems }]] = await pool.query('Select count(1) as totalItems FROM topcategory')
+  return { categories: result, pagination: { totalItems } }
+}
+
+export const updatetCategoriesDetail = async ({ id, category, sort, img, logo1, logo2, logo3 }) => {
+  const [result] = await pool.query(
+    `Update topcategory set category = ?, sort = ?,img = ?,logo1 = ?,logo2 = ?,logo3 = ?  where id = ?`,
+    [category, sort, img, logo1, logo2, logo3, id]
+  )
+  return result
+}
+
+export const deleteCategory = async (id) => {
+  const [result] = await pool.query(`DELETE FROM topcategory WHERE product_id = ?`, [id])
+  return result
+}
+
+export const deleteProduct = async (productId) => {
+  const connection = await pool.getConnection()
+  try {
+    await connection.beginTransaction()
+
+    // 1. Xoá ảnh phụ
+    await connection.query(`DELETE FROM product_images WHERE product_id = ?`, [productId])
+
+    // 2. Xoá thông số kỹ thuật
+    await connection.query(`DELETE FROM product_spec WHERE product_id = ?`, [productId])
+
+    // 3. Xoá comment
+    await connection.query(`DELETE FROM comments WHERE product_id = ?`, [productId])
+
+    // 3. Xoá orders
+    await connection.query(`DELETE FROM order_items WHERE product_id = ?`, [productId])
+
+    // 4. Xoá sản phẩm chính
+    const [result] = await connection.query(`DELETE FROM products WHERE product_id = ?`, [productId])
+
+    await connection.commit()
+
+    if (result.affectedRows === 0) {
+      return { success: false, message: 'Product not found' }
+    }
+
+    return { success: true, message: 'Product deleted successfully' }
+  } catch (err) {
+    await connection.rollback()
+    console.error('Failed to delete product:', err)
+    throw new Error('Failed to delete product')
+  } finally {
+    connection.release()
+  }
 }
