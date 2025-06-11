@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes'
 
 export const errorHandler = (err, req, res, next) => {
   const status = err.status || StatusCodes.INTERNAL_SERVER_ERROR
+  console.log('error ', err)
 
   res.status(status).json({
     status: 'error',
