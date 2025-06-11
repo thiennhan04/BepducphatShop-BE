@@ -17,15 +17,15 @@ const adminRouter = Router()
 
 adminRouter.post(
   '/products/createProduct',
-  // accessTokenValidator,
-  // isAdminValidator,
+  accessTokenValidator,
+  isAdminValidator,
   asyncHandler(createProductController)
 )
 
 adminRouter.post(
   '/products/updateProduct',
-  // accessTokenValidator,
-  // isAdminValidator,
+  accessTokenValidator,
+  isAdminValidator,
   asyncHandler(updateProductController)
 )
 
@@ -34,30 +34,30 @@ adminRouter.get('/products/listcategory', asyncHandler(getListCategoriesControll
 adminRouter.get('/products/updateCategoryDetail', asyncHandler(updateCategoryDetailController))
 adminRouter.post(
   '/products/topcategories',
-  // accessTokenValidator(),
-  // isAdminValidator,
+  accessTokenValidator(),
+  isAdminValidator,
   asyncHandler(createTopCategoriesController)
 )
 adminRouter.get(
   '/products/listCategoriesDetail',
-  // accessTokenValidator(),
-  // isAdminValidator,
+  accessTokenValidator(),
+  isAdminValidator,
   pagingValidator,
   asyncHandler(getlistCategoriesDetailController)
 )
 
 adminRouter.put(
   '/products/updateCategoryDetail',
-  // accessTokenValidator(),
-  // isAdminValidator,
+  accessTokenValidator(),
+  isAdminValidator,
   pagingValidator,
   asyncHandler(updateCategoryDetailController)
 )
 
 adminRouter.delete(
   '/products/deleteProduct/:id',
-  // accessTokenValidator(),
-  // isAdminValidator,
+  accessTokenValidator(),
+  isAdminValidator,
   asyncHandler(deleteProductController)
 )
 adminRouter.delete('/products/:id', deleteProductController)
