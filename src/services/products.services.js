@@ -1,4 +1,3 @@
-import { json } from 'express'
 import { pool } from '../configs/database/connect'
 
 export const getAllProducts = async ({
@@ -463,4 +462,88 @@ export const deleteProduct = async (productId) => {
   } finally {
     connection.release()
   }
+}
+
+export const getListOrder = async ({
+  limit = 10,
+  page = 1,
+  sortBy = 'order_date',
+  orderBy = 'desc',
+  search = '',
+  status = ''
+}) => {
+  const select = `SELECT order_id, customer_id, phone, email, full_name, address, city, district, ward, note, total_amount, order_date, status`
+  let queryStr = `FROM orders
+                    WHERE 1 = 1`
+  const params = []
+
+  if (search) {
+    queryStr += ` AND (CAST(order_id AS CHAR) LIKE ? OR phone LIKE ? OR email LIKE ? OR note LIKE ?)`
+    params.push(`%${search}%`, `%${search}%`, `%${search}%`, `%${search}%`)
+  }
+
+  if (status) {
+    queryStr += ` AND status = ?`
+    params.push(status)
+  }
+
+  if (sortBy && orderBy) {
+    const allowedSortBy = ['order_date', 'amount']
+    if (allowedSortBy.includes(sortBy)) {
+      const order = orderBy && ['asc', 'desc'].includes(orderBy.toLowerCase()) ? orderBy.toUpperCase() : 'ASC'
+      queryStr += ` ORDER BY ${sortBy} ${order}`
+    }
+  }
+
+  const [[{ totalItems }]] = await pool.query(`SELECT COUNT(*) as totalItems ${queryStr}`, params)
+  let totalPages = 1
+  let currentPage = 1
+
+  if (limit && page) {
+    currentPage = parseInt(page)
+    const lim = parseInt(limit)
+    const start = (currentPage - 1) * lim
+    queryStr += ` LIMIT ? OFFSET ?`
+    params.push(lim, start)
+    totalPages = Math.ceil(totalItems / lim)
+  }
+
+  const [orderList] = await pool.query(`${select} ${queryStr}`, params)
+
+  return {
+    orderList,
+    pagination: {
+      totalItems,
+      totalPages,
+      currentPage
+    }
+  }
+}
+
+export const getDetailOrder = async ({ order_id }) => {
+  const queryStr = `SELECT 
+                    oi.order_item_id,
+                    oi.order_id,
+                    oi.product_id,
+                    p.name,
+                    p.image_url,
+                    oi.quantity,
+                    oi.price,
+                    (oi.quantity * oi.price) AS total_price
+                  FROM order_items oi
+                  JOIN products p ON oi.product_id = p.product_id
+                  WHERE oi.order_id = ?`
+  const params = [order_id]
+  const [productList] = await pool.query(queryStr, params)
+
+  return {
+    productList
+  }
+}
+
+export const updateOrderStatus = async ({ order_id, status }) => {
+  const queryStr = `UPDATE orders SET status = ? WHERE order_id = ?`
+  const params = [status, order_id]
+
+  await pool.query(queryStr, params)
 }

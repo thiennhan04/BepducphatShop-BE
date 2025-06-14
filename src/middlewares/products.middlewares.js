@@ -157,3 +157,8 @@ export const createUpdateProductValidator = validate([
       return true
     })
 ])
+
+export const getListOrderValidator = validate([
+  body('search').optional().trim().isString().withMessage('search must be a string'),
+  body('status').optional().trim().isString().withMessage('status must be a string')
+])

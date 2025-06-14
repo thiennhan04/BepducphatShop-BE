@@ -2,18 +2,21 @@ import { StatusCodes } from 'http-status-codes'
 import {
   createComment,
   createProduct,
+  createTopCategories,
+  deleteCategory,
+  deleteProduct,
   getAllProducts,
   getCategories,
   getComment,
+  getDetailOrder,
+  getListCategories,
+  getlistCategoriesDetail,
+  getListOrder,
   getProductById,
   getTopCategories,
-  getListCategories,
-  createTopCategories,
-  getlistCategoriesDetail,
-  updatetCategoriesDetail,
-  deleteCategory,
+  updateOrderStatus,
   updateProduct,
-  deleteProduct
+  updatetCategoriesDetail
 } from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
@@ -186,5 +189,31 @@ export const deleteProductController = async (req, res) => {
   return res.status(StatusCodes.OK).json({
     status: 'success',
     data: deletedCategory
+  })
+}
+
+export const getListOrderController = async (req, res) => {
+  const result = await getListOrder(req.body || {})
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    data: result
+  })
+}
+
+export const getDetailDetailController = async (req, res) => {
+  const result = await getDetailOrder(req.body || {})
+
+  res.status(StatusCodes.OK).json({
+    status: 'success',
+    data: result
+  })
+}
+
+export const updateOrderStatusController = async (req, res) => {
+  await updateOrderStatus(req.body || {})
+
+  res.status(StatusCodes.OK).json({
+    status: 'success'
   })
 }
