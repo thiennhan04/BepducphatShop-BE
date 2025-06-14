@@ -100,7 +100,7 @@ CREATE TABLE `order_items` (
   KEY `product_id` (`product_id`),
   CONSTRAINT `order_items_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
   CONSTRAINT `order_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,7 +109,7 @@ CREATE TABLE `order_items` (
 
 LOCK TABLES `order_items` WRITE;
 /*!40000 ALTER TABLE `order_items` DISABLE KEYS */;
-INSERT INTO `order_items` VALUES (1,1,1,1,0.00),(2,1,2,2,0.00),(4,2,2,2,0.00),(5,6,1,1,0.00),(6,7,1,1,0.00),(7,8,1,1,0.00),(8,9,1,1,0.00),(9,10,1,1,0.00),(10,11,1,1,0.00),(11,12,1,2,0.00),(12,13,1,2,990000.00),(13,14,1,2,990000.00),(14,15,1,2,990000.00);
+INSERT INTO `order_items` VALUES (15,16,1,10,990000.00),(16,17,2,10,1000000.00);
 /*!40000 ALTER TABLE `order_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -137,7 +137,7 @@ CREATE TABLE `orders` (
   PRIMARY KEY (`order_id`),
   KEY `customer_id` (`customer_id`),
   CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -146,7 +146,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (1,1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0.00,'2025-05-08 17:07:58','cart'),(2,2,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0.00,'2025-05-08 17:07:58','cart'),(6,NULL,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,0.00,'2025-05-09 18:05:23','pending'),(7,NULL,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,0.00,'2025-05-09 18:07:36','pending'),(8,NULL,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,0.00,'2025-05-09 18:08:02','pending'),(9,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,0.00,'2025-05-09 18:09:02','pending'),(10,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,0.00,'2025-05-09 18:14:56','pending'),(11,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,990000.00,'2025-05-09 18:15:31','pending'),(12,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,1980000.00,'2025-05-09 18:15:40','pending'),(13,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,1980000.00,'2025-05-09 18:21:53','pending'),(14,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,1980000.00,'2025-05-09 18:23:01','pending'),(15,1,'0763456789','admin@gmail.com','Nguyễn Thiện Nhân','137 Nguyễn Văn Linh','Đà Nẵng','Hòa Khánh Bắc','Liên Chiểu',NULL,1980000.00,'2025-05-09 18:23:13','pending');
+INSERT INTO `orders` VALUES (16,NULL,'0864123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Thành phố Đà Nẵng','Quận Liên Chiểu','Phường Hòa Khánh Bắc','test',9900000.00,'2025-06-14 11:47:31','shipped'),(17,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(18,NULL,'0864123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Thành phố Đà Nẵng','Quận Liên Chiểu','Phường Hòa Khánh Bắc','test',9900000.00,'2025-06-14 11:47:31','delivered'),(19,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','cancelled'),(20,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(21,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(22,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(23,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(24,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(25,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(26,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(27,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(28,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(29,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(30,NULL,'0864123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Thành phố Đà Nẵng','Quận Liên Chiểu','Phường Hòa Khánh Bắc','test',9900000.00,'2025-06-14 11:47:31','pending'),(31,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(32,NULL,'0864123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Thành phố Đà Nẵng','Quận Liên Chiểu','Phường Hòa Khánh Bắc','test',9900000.00,'2025-06-14 11:47:31','pending'),(33,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(34,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(35,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(36,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(37,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(38,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(39,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(40,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(41,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(42,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending'),(43,NULL,'0764123123','nhannt99@gmail.com','Nguyen Thien Nhan','144 Nguyễn Lương Bằng','Tỉnh Hà Giang','Huyện Yên Minh','Xã Sủng Tráng','asdasd',10000000.00,'2025-06-14 11:47:54','pending');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -266,6 +266,10 @@ LOCK TABLES `topcategory` WRITE;
 INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(2,'Bếp gas',2,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(3,'Máy hút mùi',3,'spkm1.png','eurosun-logo.png','logokaff1.png','bosch.jpg'),(4,'Lò nướng - Lò vi sóng',4,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(5,'Máy rửa chén',5,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(6,'Chậu rửa - Vòi Rửa',6,'spkm1.png','logokaff1.png','eurogold.png','Carysil.png');
 /*!40000 ALTER TABLE `topcategory` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'bepducphatshop'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -276,5 +280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-05-25 15:25:37
-
+-- Dump completed on 2025-06-14 20:39:00
