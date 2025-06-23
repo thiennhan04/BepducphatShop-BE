@@ -3,6 +3,7 @@ import adminRouter from './admin.routes'
 import authRouter from './auth.routes'
 import cartRouter from './cart.routes'
 import mediasRouter from './medias.routes'
+import bannerRouter from './banner.route'
 import productsRouter from './products.routes'
 import staticRouter from './static.routes'
 
@@ -13,7 +14,7 @@ export default function initRoutes(app) {
   app.use('/api/v1/static', staticRouter)
   app.use('/api/v1/cart', cartRouter)
   app.use('/api/v1/admin', adminRouter)
-
+  app.use('/api/v1/banner', bannerRouter)
   app.use(errorHandler)
   app.use(notFoundHandler)
 }
