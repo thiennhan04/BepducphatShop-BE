@@ -1,6 +1,5 @@
 import { config } from 'dotenv'
 import mysql from 'mysql2/promise'
-
 export const env = process.env.NODE_ENV === 'production' ? 'production' : 'development'
 config({ path: `.env.${env}` })
 
@@ -21,7 +20,7 @@ export async function connectDB() {
     await pool.query('SELECT 1')
     console.log('Connected Database!')
   } catch (err) {
-    console.error('Connect database failed:', err.message)
+    console.error('-----------------------------Connect database failed:---------------------------', err.message)
     process.exit(1)
   }
 }
