@@ -22,7 +22,6 @@ export async function connectDB() {
     console.log('Connected Database!')
   } catch (err) {
     console.error('Connect database failed:', err.message)
-    process.exit(1)
   }
 }
 
