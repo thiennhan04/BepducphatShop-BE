@@ -4,7 +4,8 @@ import {
   getAllProductsController,
   getCommentController,
   getProductController,
-  getTopCategoriesController
+  getTopCategoriesController,
+  handleGetBannerByCategory
 } from '../controllers/products.controllers'
 import { pagingValidator } from '../middlewares/paging.middlewares'
 import {
@@ -21,6 +22,7 @@ const productsRouter = Router()
 productsRouter.get('/', getAllProductsValidator, pagingValidator, asyncHandler(getAllProductsController))
 productsRouter.get('/categories', asyncHandler(getTopCategoriesController))
 productsRouter.get('/:product_id', getProductValidator, asyncHandler(getProductController))
+productsRouter.get('/category-banner', asyncHandler(handleGetBannerByCategory))
 
 productsRouter
   .route('/:product_id/comments')

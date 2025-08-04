@@ -16,6 +16,60 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `brand_banner`
+--
+
+DROP TABLE IF EXISTS `brand_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `brand_banner` (
+  `idbrand_banner` int NOT NULL AUTO_INCREMENT,
+  `brand` varchar(45) DEFAULT NULL,
+  `brand_img1` varchar(255) DEFAULT NULL,
+  `brand_img2` varchar(255) DEFAULT NULL,
+  `brand_img3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idbrand_banner`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `brand_banner`
+--
+
+LOCK TABLES `brand_banner` WRITE;
+/*!40000 ALTER TABLE `brand_banner` DISABLE KEYS */;
+INSERT INTO `brand_banner` VALUES (1,'Kaff','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/kaff_product_bn.jpg',NULL,NULL);
+/*!40000 ALTER TABLE `brand_banner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `category_banner`
+--
+
+DROP TABLE IF EXISTS `category_banner`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `category_banner` (
+  `idcategory_banner` int NOT NULL AUTO_INCREMENT,
+  `category` varchar(45) DEFAULT NULL,
+  `category_img1` varchar(255) DEFAULT NULL,
+  `category_img2` varchar(255) DEFAULT NULL,
+  `category_img3` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`idcategory_banner`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `category_banner`
+--
+
+LOCK TABLES `category_banner` WRITE;
+/*!40000 ALTER TABLE `category_banner` DISABLE KEYS */;
+INSERT INTO `category_banner` VALUES (1,'Bếp điện từ','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/bepdientu_productbn.jpg',NULL,NULL),(2,'Bếp từ','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/beptu_productbn.jpg',NULL,NULL),(3,'Bếp gas','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/bepga_product_bn2.jpg',NULL,NULL),(4,'Máy hút mùi','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/mayhutmui_product_bn.jpg',NULL,NULL),(5,'Lò nướng','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/lonuong_product_bn.jpg',NULL,NULL),(6,'Lò vi sóng','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/lovisong_product_bn.jpg',NULL,NULL),(7,'Máy lọc nước','https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/maylocnc_product_bn.jpg',NULL,NULL);
+/*!40000 ALTER TABLE `category_banner` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comments`
 --
 
@@ -249,10 +303,10 @@ CREATE TABLE `topcategory` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `sort` int DEFAULT '1',
-  `img` varchar(45) DEFAULT NULL,
-  `logo1` varchar(45) DEFAULT NULL,
-  `logo2` varchar(45) DEFAULT NULL,
-  `logo3` varchar(45) DEFAULT NULL,
+  `img` varchar(255) DEFAULT NULL,
+  `logo1` varchar(255) DEFAULT NULL,
+  `logo2` varchar(255) DEFAULT NULL,
+  `logo3` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -263,13 +317,9 @@ CREATE TABLE `topcategory` (
 
 LOCK TABLES `topcategory` WRITE;
 /*!40000 ALTER TABLE `topcategory` DISABLE KEYS */;
-INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(2,'Bếp gas',2,'spkm1.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(3,'Máy hút mùi',3,'spkm1.png','eurosun-logo.png','logokaff1.png','bosch.jpg'),(4,'Lò nướng - Lò vi sóng',4,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(5,'Máy rửa chén',5,'spkm1.png','bosch.jpg','logokaff1.png','eurosun-logo.png'),(6,'Chậu rửa - Vòi Rửa',6,'spkm1.png','logokaff1.png','eurogold.png','Carysil.png');
+INSERT INTO `topcategory` VALUES (1,'Bếp điện từ',1,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/bepdientu_topbanner.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(2,'Bếp gas',2,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/bepga_topbanner.png','logokaff1.png','eurosun-logo.png','Chefs.png'),(3,'Máy hút mùi',3,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/mayhutmui_topbanner.jfif','eurosun-logo.png','logokaff1.png','bosch.jpg'),(4,'Lò vi sóng',4,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/lonuong_topbanner.jfif','bosch.jpg','logokaff1.png','eurosun-logo.png'),(5,'Máy rửa chén',5,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/mayruachen_topbanner.jfif','bosch.jpg','logokaff1.png','eurosun-logo.png'),(6,'Chậu rửa - Vòi Rửa',6,'https://kdwacibvdysdtflajfeb.supabase.co/storage/v1/object/public/bepducphat/products/bonrua_topbanner.png','logokaff1.png','eurogold.png','Carysil.png');
 /*!40000 ALTER TABLE `topcategory` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'bepducphatshop'
---
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -280,4 +330,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-14 20:39:00
+-- Dump completed on 2025-06-24  6:44:20

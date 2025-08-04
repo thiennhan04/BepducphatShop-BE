@@ -16,7 +16,9 @@ import {
   getTopCategories,
   updateOrderStatus,
   updateProduct,
-  updatetCategoriesDetail
+  updatetCategoriesDetail,
+  getBannerByCategory,
+  getBannerByBrand
 } from '../services/products.services'
 
 export const getAllProductsController = async (req, res) => {
@@ -29,6 +31,32 @@ export const getAllProductsController = async (req, res) => {
       pagination
     }
   })
+}
+
+export const handleGetBannerByCategory = async (req, res) => {
+  try {
+    const { keyword } = req.query
+    if (!keyword) return res.status(400).json({ error: 'Missing keyword' })
+
+    const banners = await getBannerByCategory(keyword)
+    res.json(banners)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
+}
+
+export const handleGetBannerByBrand = async (req, res) => {
+  try {
+    const { keyword } = req.query
+    if (!keyword) return res.status(400).json({ error: 'Missing keyword' })
+
+    const banners = await getBannerByBrand(keyword)
+    res.json(banners)
+  } catch (err) {
+    console.error(err)
+    res.status(500).json({ error: 'Server error' })
+  }
 }
 
 export const getTopCategoriesController = async (req, res) => {

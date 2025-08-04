@@ -99,6 +99,31 @@ export const getCommentByIdsss = async ({ comment_id }) => {
 
   return result[0]
 }
+
+export const getBannerByCategory = async (keyword) => {
+  const [rows] = await pool.query(
+    `
+    SELECT category, category_img1 
+    FROM category_banner 
+    WHERE category LIKE CONCAT('%', ?, '%')
+    `,
+    [keyword]
+  )
+  return rows
+}
+
+export const getBannerByBrand = async (keyword) => {
+  const [rows] = await pool.query(
+    `
+    SELECT brand, brand_img1 
+    FROM brand_banner 
+    WHERE brand LIKE CONCAT('%', ?, '%')
+    `,
+    [keyword]
+  )
+  return rows
+}
+
 export const getListCategories = async () => {
   const [categories] = await pool.query(`SELECT DISTINCT category FROM products`)
   return categories
