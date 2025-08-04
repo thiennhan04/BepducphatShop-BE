@@ -20,8 +20,7 @@ export async function connectDB() {
     await pool.query('SELECT 1')
     console.log('Connected Database!')
   } catch (err) {
-    console.error('-----------------------------Connect database failed:---------------------------', err.message)
-    process.exit(1)
+    console.error('Connect database failed:', err.message)
   }
 }
 
