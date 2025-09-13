@@ -200,8 +200,23 @@ export const getProductById = async ({ product_id }) => {
   ])
 
   const [productSpec] = specResult
+
   productSpec.forEach((spec) => (spec.spec_value = JSON.parse(spec.spec_value)))
-  product.spec = productSpec
+
+  const specMap = {}
+  productSpec.forEach((spec) => {
+    if (!specMap[spec.spec_name]) {
+      specMap[spec.spec_name] = []
+    }
+    specMap[spec.spec_name].push(spec.spec_value)
+  })
+
+  const productSpecReturn = Object.entries(specMap).map(([name, values]) => ({
+    spec_name: name,
+    spec_value: values
+  }))
+
+  product.spec = productSpecReturn
 
   const [productImage] = imageResult
   product.image_url = [product.image_url, ...productImage.map((item) => item.image_url)]
