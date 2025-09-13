@@ -397,11 +397,13 @@ export const updateProduct = async ({
     // 5. Insert updated specs
     for (const group of specs) {
       const groupTitle = group.title
-      await connection.query(
-        `INSERT INTO product_spec (product_id, spec_name, spec_value)
+      for (const item of group.data) {
+        await connection.query(
+          `INSERT INTO product_spec (product_id, spec_name, spec_value)
            VALUES (?, ?, ?)`,
-        [id, groupTitle, JSON.stringify(group.data)]
-      )
+          [id, groupTitle, JSON.stringify(item)]
+        )
+      }
     }
 
     await connection.commit()
