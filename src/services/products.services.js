@@ -433,7 +433,7 @@ export const updateProduct = async ({
 }
 
 export const getCategories = async () => {
-  const [result] = await pool.query(`SELECT DISTINCT category FROM products`)
+  const [result] = await pool.query(`SELECT DISTINCT category FROM topcategory`)
 
   return result.map((item) => item.category)
 }
@@ -464,7 +464,7 @@ export const updatetCategoriesDetail = async ({ id, category, sort, img, logo1, 
 }
 
 export const deleteCategory = async (id) => {
-  const [result] = await pool.query(`DELETE FROM topcategory WHERE product_id = ?`, [id])
+  const [result] = await pool.query(`DELETE FROM topcategory WHERE id = ?`, [id])
   return result
 }
 

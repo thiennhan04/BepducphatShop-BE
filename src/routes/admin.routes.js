@@ -7,6 +7,7 @@ import {
   getDetailDetailController,
   getListCategoriesController,
   getlistCategoriesDetailController,
+  deleteCategoryController,
   getListOrderController,
   updateCategoryDetailController,
   updateOrderStatusController,
@@ -72,6 +73,12 @@ adminRouter.delete(
   accessTokenValidator(),
   isAdminValidator,
   asyncHandler(deleteProductController)
+)
+adminRouter.delete(
+  '/products/deleteCategory/:id',
+  accessTokenValidator(),
+  isAdminValidator,
+  asyncHandler(deleteCategoryController)
 )
 adminRouter.delete('/products/:id', accessTokenValidator(), isAdminValidator, deleteProductController)
 adminRouter.post(
