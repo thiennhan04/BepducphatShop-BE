@@ -132,7 +132,7 @@ export const getListCategories = async () => {
 export const getTopCategories = async () => {
   try {
     const [categories] = await pool.query(
-      `SELECT category, img, logo1, logo2, logo3  FROM topcategory ORDER BY sort ASC`
+      `SELECT category, img, logo1, logo2, logo3  FROM topcategory WHERE sort = 1 ORDER BY sort ASC`
     )
     const results = []
     for (const item of categories) {
